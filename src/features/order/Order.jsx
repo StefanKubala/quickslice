@@ -1,3 +1,10 @@
+import { getOrder } from "../../services/apiRestaurant";
+import {
+  calcMinutesLeft,
+  formatCurrency,
+  formatDate,
+} from "../../utils/helpers";
+
 const order = {
   id: "ABCDEF",
   customer: "Jonas",
@@ -44,6 +51,8 @@ function Order() {
     cart,
   } = order;
 
+  const deliveryIn = calcMinutesLeft(estimatedDelivery);
+
   return (
     <div>
       <div>
@@ -56,16 +65,26 @@ function Order() {
       </div>
 
       <div>
-        <p>Estimated delivery:</p>
+        <p>
+          {deliveryIn >= 0
+            ? `Only ${calcMinutesLeft(estimatedDelivery)} minutes left 😃`
+            : "Order should have arrived"}
+        </p>
+        <p>(Estimated delivery: {formatDate(estimatedDelivery)})</p>
       </div>
 
       <div>
-        <p>Price pizza: </p>
-
-        <p>To pay on delivery:</p>
+        <p>Price pizza: {formatCurrency(orderPrice)}</p>
+        {priority && <p>Price priority: {formatCurrency(priorityPrice)}</p>}
+        <p>To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
       </div>
     </div>
   );
+}
+
+export async function loader({ params }) {
+  const order = getOrder(params.orderId);
+  return order;
 }
 
 export default Order;
