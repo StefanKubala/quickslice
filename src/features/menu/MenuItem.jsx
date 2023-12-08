@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
-import { addItem, getCart } from "../cart/cartSlice";
+import { addItem } from "../cart/cartSlice";
 
 /* eslint-disable react/prop-types */
 function MenuItem({ pizza }) {
@@ -20,8 +20,6 @@ function MenuItem({ pizza }) {
     dispatch(addItem(newItem));
   }
 
-  const cart = useSelector(getCart);
-  console.log(cart);
   return (
     <li className="flex gap-4 py-2">
       <img
