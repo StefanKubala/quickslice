@@ -13,7 +13,7 @@ export default function Button({ children, disabled, to, type, onClick }) {
       "inline-block px-4 py-2.5 hover:bg-stone-300 hover:text-stone-800 md:px-6 md:py-3.5 semi-bold duration-300 border-stone-300 rounded-full border-2 font-semibold uppercase tracking-wide text-stone-400 transition-colors focus:bg-stone-300 focus:outline-none focus:ring focus:ring-stone-200 focus:ring-offset-2 disabled:cursor-not-allowed ",
   };
 
-  if (onclick)
+  if (onClick)
     return (
       <button className={styles[type]} onClick={onClick}>
         {children}
