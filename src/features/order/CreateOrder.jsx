@@ -9,6 +9,7 @@ import store from "../../store";
 
 function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
+  const { username } = useSelector((state) => state.user);
 
   const navigation = useNavigate();
   const isSubmitting = navigation.state === "submitting";
@@ -25,6 +26,7 @@ function CreateOrder() {
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">First Name</label>
           <input
+            defaultValue={username}
             className="rounded-full grow border border-stone-200 px-4 py-2 
     text-sm ring-yellow-400 transition-all placeholder:stroke-neutral-400 focus:outline-none
     focus:ring md:px-6 md:py-3"
@@ -94,7 +96,7 @@ export async function action({ request }) {
   const order = {
     ...data,
     cart: JSON.parse(data.cart),
-    priority: data.priority === "on",
+    priority: data.priority === "true",
   };
 
   const newOrder = await createOrder(order);
