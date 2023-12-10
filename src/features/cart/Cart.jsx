@@ -9,7 +9,6 @@ function Cart() {
   const cart = useSelector(getCart);
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
-  console.log(cart);
 
   if (!cart.length) return <EmptyCart />;
   return (
@@ -23,7 +22,7 @@ function Cart() {
         <CartItem item={item} key={item.pizzaId} />
       ))}
       <div className="mt-6 space-x-2">
-        <Button type="primary" to="order/new">
+        <Button type="primary" to="/order/new">
           Order pizzas
         </Button>
         <Button type="secondary" onClick={() => dispatch(clearCart())}>
