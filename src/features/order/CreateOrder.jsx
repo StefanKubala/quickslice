@@ -1,15 +1,24 @@
 import { Form, redirect, useNavigate } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCart, getCart, getTotalCartPrice } from "../cart/cartSlice";
 import Button from "../../ui/Button";
 import { useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
 import store from "../../store";
+import { fetchAddress } from "../user/userSlice";
 
 function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
-  const { username } = useSelector((state) => state.user);
+  const {
+    username,
+    status: addressStatus,
+    position,
+    address,
+    error: errorAddress,
+  } = useSelector((state) => state.user);
+
+  console.log(address, position);
 
   const navigation = useNavigate();
   const isSubmitting = navigation.state === "submitting";
@@ -17,6 +26,7 @@ function CreateOrder() {
   const totalCartPrice = useSelector(getTotalCartPrice);
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
   const totalPrice = totalCartPrice + priorityPrice;
+  const dispatch = useDispatch();
 
   return (
     <div className="px-4 py-6">
@@ -59,9 +69,23 @@ function CreateOrder() {
     focus:ring md:px-6 md:py-3"
               type="text"
               name="address"
+              defaultValue={address}
               required
             />
           </div>
+          {!position.latitude && !position.longitude && (
+            <span className="absolute right-1 top-1 z-50 md:right-[5px] md:top-[5px]">
+              <Button
+                type="small"
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(fetchAddress());
+                }}
+              >
+                Get position
+              </Button>
+            </span>
+          )}
         </div>
 
         <div className="mb-12 flex items-center gap-5">
