@@ -27,6 +27,7 @@ function CreateOrder() {
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
   const totalPrice = totalCartPrice + priorityPrice;
   const dispatch = useDispatch();
+  const isLoadingAddress = addressStatus === "loading";
 
   return (
     <div className="px-4 py-6">
@@ -69,14 +70,21 @@ function CreateOrder() {
     focus:ring md:px-6 md:py-3"
               type="text"
               name="address"
+              disabled={isLoadingAddress}
               defaultValue={address}
               required
             />
+            {addressStatus === "error" && (
+              <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
+                {errorAddress}
+              </p>
+            )}
           </div>
           {!position.latitude && !position.longitude && (
             <span className="absolute right-1 top-1 z-50 md:right-[5px] md:top-[5px]">
               <Button
                 type="small"
+                disabled={isLoadingAddress}
                 onClick={(e) => {
                   e.preventDefault();
                   dispatch(fetchAddress());
@@ -102,7 +110,16 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button disabled={isSubmitting} type="primary">
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position.longitude && position.latitude
+                ? `${position.latitude}, ${position.longitude}`
+                : ""
+            }
+          />
+          <Button disabled={isSubmitting || isLoadingAddress} type="primary">
             {isSubmitting
               ? "Placing order...."
               : `Order now for ${formatCurrency(totalPrice)}`}
