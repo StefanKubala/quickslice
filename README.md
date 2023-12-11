@@ -1,8 +1,53 @@
-# React + Vite
+# QuickSlice Pizza Ordering App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to QuickSlice, a single-page application that allows users to easily order delicious pizzas. The application fetches pizza options from the [React Fast Pizza API](https://react-fast-pizza-api.onrender.com/api), providing a variety of choices for users to add to their cart.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+
+![QuickSlice desktop design](https://github.com/StefanKubala/quickslice/blob/main/public/Screenshot.png "QuickSlice desktop design")
+
+## Technologies Used
+
+- HTML
+- CSS
+- Tailwind CSS
+- React with React Router for navigation
+- Redux - for state management
+- JavaScript
+
+## Features
+
+### 1. Pizza Selection
+
+Browse through a variety of pizza options fetched from the [React Fast Pizza API](https://react-fast-pizza-api.onrender.com/api) and add your favorites to the shopping cart.
+
+### 2. User Information
+
+Provide your details using the order form, including your name, contact information, and delivery address.
+
+### 3. Automatic Address Retrieval
+
+Use the "Get Address" button to automatically fetch and populate the address field.
+
+### 4. Order Tracking
+
+Keep track of your orders by entering the order ID in the header's input field.
+
+
+## Getting Started
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/your-username/quickslice.git
+2. **Change into the project directory::**
+   ```bash
+   cd quickslice
+3. **Install dependencies:**
+   ```bash
+   npm install
+4. **Start application:**
+   ```bash
+   npm run dev
+
+
