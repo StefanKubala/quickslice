@@ -1,4 +1,4 @@
-import { Form, redirect, useNavigate } from "react-router-dom";
+import { Form, redirect, useActionData, useNavigate } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart, getCart, getTotalCartPrice } from "../cart/cartSlice";
@@ -7,6 +7,11 @@ import { useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
 import store from "../../store";
 import { fetchAddress } from "../user/userSlice";
+
+const isValidPhone = (str) =>
+  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
+    str
+  );
 
 function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
@@ -18,9 +23,8 @@ function CreateOrder() {
     error: errorAddress,
   } = useSelector((state) => state.user);
 
-  console.log(address, position);
-
   const navigation = useNavigate();
+  const formErrors = useActionData();
   const isSubmitting = navigation.state === "submitting";
   const cart = useSelector(getCart);
   const totalCartPrice = useSelector(getTotalCartPrice);
@@ -58,6 +62,11 @@ function CreateOrder() {
               name="phone"
               required
             />
+            {formErrors?.phone && (
+              <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
+                {formErrors.phone}
+              </p>
+            )}
           </div>
         </div>
 
@@ -139,6 +148,11 @@ export async function action({ request }) {
     cart: JSON.parse(data.cart),
     priority: data.priority === "true",
   };
+
+  const errors = {};
+  if (!isValidPhone(order.phone))
+    errors.phone = "Please give us your valid phone number.";
+  if (Object.keys(errors).length > 0) return errors;
 
   const newOrder = await createOrder(order);
   store.dispatch(clearCart());
